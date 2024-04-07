@@ -1,12 +1,21 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import Form from '@components/Form';
+
+const SuspenseEditPrompt = () => {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <EditPrompt />
+      </Suspense>
+    );
+  };
 
 
 const EditPrompt = () => {
     const router = useRouter();
-    const [searchParams] = useSearchParams();
+    const searchParams = useSearchParams();
     const promptId = searchParams.get('id');
 
     const [submitting, setsubmitting] = useState(false);
@@ -17,12 +26,12 @@ const EditPrompt = () => {
     });
 
     useEffect(() => {
-        const getPromptDetails = async () =>{
+        const getPromptDetails = async () => {
             const response = await fetch(`/api/prompt/${promptId}`);
             const data = await response.json();
             setpost({
-                prompt : data.prompt,
-                tag : data.tag,
+                prompt: data.prompt,
+                tag: data.tag,
             })
         }
         if (promptId) getPromptDetails();
@@ -51,15 +60,14 @@ const EditPrompt = () => {
         }
     }
     return (
-        <Form
-            type="Edit"
-            post={post}
-            setpost={setpost}
-            submitting={submitting}
-            handleSubmit={updatePrompt}
-
-        />
+            <Form
+                type="Edit"
+                post={post}
+                setpost={setpost}
+                submitting={submitting}
+                handleSubmit={updatePrompt}
+            />
     )
 }
 
-export default EditPrompt
+export default SuspenseEditPrompt
