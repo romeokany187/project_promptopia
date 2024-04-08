@@ -1,15 +1,19 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
+useSession
 import Image from "next/image";
 import PromptCard from "@components/PromptCard";
+import { useSession } from "next-auth/react";
 
 
 const ReadPrompt = () => {
   const [post, setpost] = useState({});
   const searchParams = useSearchParams();
   const postId = searchParams.get("postId");
+  const router = useRouter();
+  const { data: session } = useSession();
 
   useEffect(() => {
 
@@ -23,6 +27,11 @@ const ReadPrompt = () => {
     if (postId) fecthPost();
   }, []);
 
+  const handleContactClick = () => {
+    console.log(post);
+
+    router.push(`/chat/conversationId=${"new"}?creator=${post?.creator?._id}`);
+  };
   return (
     <div className="flex flex-col lg:px-8 md:px-6 sm:px-3 p-0 py-4 lg:w-[75%] md:w-[85%] sm:w-[90%] w-[100%]  ">
       <div className='flex justify-between items-start lg:gap-[6rem]  '>
@@ -52,7 +61,11 @@ const ReadPrompt = () => {
       </div>
       <div className="my-4 font-satoshi lg:text-[1.3rem] md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-gray-700  px-4  "> {post.prompt} </div>
       <div className="lg:hidden px-4"><div className=" lg:text-sm  blue_gradient mt-2  font-bold text-[1rem] ">{post.tag} </div></div>
-      <div className="self-end px-10 py-3 mt-5 text-[1rem] bg-primary-orange rounded-full text-white font-bold cursor-pointer">Contact</div>
+      {session?.user?.id === post.creator?._id ? (
+        <div className=""></div>
+      ) : <div className="self-end px-10 py-3 mt-5 text-[1rem] bg-primary-orange rounded-full text-white font-bold cursor-pointer" onClick={handleContactClick}>Contact</div>
+      }
+
     </div>
   )
 }
