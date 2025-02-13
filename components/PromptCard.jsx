@@ -70,7 +70,7 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
         </div>
       </div>
 
-      <p className='my-4 font-satoshi text-sm text-gray-700 cursor-pointer' onClick={handlePromptClick}>{post.prompt.substring(0, 80)} ...</p>
+      <p className='my-4 font-satoshi text-sm text-gray-700 cursor-pointer' onClick={handlePromptClick}>{post.prompt.substring(0, 35)} ...</p>
 
 
       <p

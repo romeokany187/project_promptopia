@@ -5,6 +5,7 @@ import Message from '@models/messages';
 export const POST = async (req , res) => {
     const { conversationId, senderId, message, receiverId = '' } =  await req.json();
     try {
+        await connectToDB();
         if(!senderId || !message) return new Response("please fill all required fields" ,{status: 400})
         if(conversationId === 'new' && receiverId){
             const newConversation = new Conversation({members : [senderId , receiverId]});
@@ -21,3 +22,4 @@ export const POST = async (req , res) => {
         return new Response('conversationId or receiverId missed'+ " " +error, {status: 500})
     }
 }
+

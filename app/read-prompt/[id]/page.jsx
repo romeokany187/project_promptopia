@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-useSession
 import Image from "next/image";
 import PromptCard from "@components/PromptCard";
 import { useSession } from "next-auth/react";
@@ -30,7 +29,7 @@ const ReadPrompt = () => {
   const handleContactClick = () => {
     console.log(post);
 
-    router.push(`/chat/conversationId=${"new"}?creator=${post?.creator?._id}`);
+    router.push(`/chat/${post?.creator?.username}?creator=${post?.creator?._id}&conversationId=${"new"}`);
   };
   return (
     <div className="flex flex-col lg:px-8 md:px-6 sm:px-3 p-0 py-4 lg:w-[75%] md:w-[85%] sm:w-[90%] w-[100%]  ">
